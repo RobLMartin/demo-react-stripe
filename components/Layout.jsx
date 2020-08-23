@@ -2,6 +2,14 @@ import Head from "next/head";
 import styled from "@emotion/styled";
 import GlobalStyles from "./prebuilt/GlobalStyles";
 
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements as StripeElements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(process.env.PUBLISHABLE_KEY);
+
+//TIP: don't call loadStripe
+// don't want to load more than you have to.
+
 const Layout = ({ children, title }) => {
   return (
     <>
@@ -11,7 +19,7 @@ const Layout = ({ children, title }) => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {children}
+      <StripeElements stripe={stripePromise}>{children}</StripeElements>
     </>
   );
 };
